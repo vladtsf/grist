@@ -1,0 +1,2 @@
+class GristController < ApplicationController
+end
