@@ -1,15 +1,20 @@
-form.b-grist-create-form
+form.b-grist-create-form(ng-controller="GristCtrl")
   .row
-    select.col-md-3.b-grist-create-form__lexer(name="lexer", ui-select2="{ allowClear: true}", ng-model="select2", placeholder="Guess")
-      option
-      option(value="JavaScript") JavaScript
-      option(value="CoffeeScript") CoffeeScript
-      option(value="Ruby") Ruby
-      option(value="PHP") PHP
-      option(value="C#") C#
+    select.col-md-3.b-grist-create-form__lexer(
+      select2-model-watcher
+      ng-options="lex for lex in lexers"
+      ui-select2
+      ng-model="lexer"
+      placeholder="Guess"
+    )
 
     .col-md-9
-      |  Guess | Text | Python | JavaScript | Ruby | CSS | HTML | Django/Jinja (press Ctrl-J to select from keyboard)
+      span
+        a(href="javascript:void(0);", ng-click="$parent.lexer = null") Guess
+      span(ng-repeat="lex in popularLexers")
+        |&nbsp;|&nbsp;
+        a(href="javascript:void(0);",ng-click="$parent.lexer = lex") {{lex}}
+      span.b-grist-create-form__action-hint (press Ctrl-J to select from keyboard)
 
   .row
     .col-md-12
@@ -18,4 +23,4 @@ form.b-grist-create-form
   .row
     .col-md-3
       button.btn.btn-lg.btn-primary(type="submit") Create
-      | (or press Ctrl-Enter)
+      span.b-grist-create-form__action-hint (or press Ctrl-Enter)

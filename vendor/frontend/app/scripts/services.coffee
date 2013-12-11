@@ -1,7 +1,1 @@
-'use strict'
-
-### Sevices ###
-
-angular.module('app.services', [])
-
-.factory 'version', -> "0.1"
+angular.module 'app.services', []

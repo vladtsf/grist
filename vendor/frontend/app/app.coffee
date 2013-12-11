@@ -9,7 +9,8 @@ App = angular.module('app', [
   'app.filters'
   'app.services'
   'partials',
-  'ui.select2'
+  'ui.select2',
+  'ui.bootstrap'
 ])
 
 App.config([
@@ -21,9 +22,6 @@ App.config([
   $routeProvider
 
     .when('/', {templateUrl: '/partials/index.html'})
-    # .when('/todo', {templateUrl: '/partials/todo.html'})
-    # .when('/view1', {templateUrl: '/partials/partial1.html'})
-    # .when('/view2', {templateUrl: '/partials/partial2.html'})
 
     # Catch all
     .otherwise({redirectTo: '/'})

@@ -5,6 +5,9 @@ Grist::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'application#index'
 
+  namespace :api, defaults: {format: 'json'} do
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

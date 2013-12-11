@@ -1,7 +1,7 @@
 'use strict';
 var App;
 
-App = angular.module('app', ['ngCookies', 'ngResource', 'app.controllers', 'app.directives', 'app.filters', 'app.services', 'partials', 'ui.select2']);
+App = angular.module('app', ['ngCookies', 'ngResource', 'app.controllers', 'app.directives', 'app.filters', 'app.services', 'partials', 'ui.select2', 'ui.bootstrap']);
 
 App.config([
   '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider, config) {
@@ -13,10 +13,8 @@ App.config([
     return $locationProvider.html5Mode(true);
   }
 ]);
-;'use strict';
-/* Controllers*/
-
-angular.module('app.controllers', []).controller('AppCtrl', [
+;angular.module('app.controllers', []);
+;angular.module('app.controllers').controller('AppCtrl', [
   '$scope', '$location', '$resource', '$rootScope', function($scope, $location, $resource, $rootScope) {
     $scope.$location = $location;
     $scope.$watch('$location.path()', function(path) {
@@ -30,82 +28,40 @@ angular.module('app.controllers', []).controller('AppCtrl', [
       }
     };
   }
-]).controller('MyCtrl1', [
-  '$scope', function($scope) {
-    return $scope.onePlusOne = 2;
-  }
-]).controller('MyCtrl2', [
-  '$scope', function($scope) {
-    return $scope;
-  }
-]).controller('TodoCtrl', [
-  '$scope', function($scope) {
-    $scope.todos = [
-      {
-        text: "learn angular",
-        done: true
-      }, {
-        text: "build an angular app",
-        done: false
-      }
-    ];
-    $scope.addTodo = function() {
-      $scope.todos.push({
-        text: $scope.todoText,
-        done: false
-      });
-      return $scope.todoText = "";
-    };
-    $scope.remaining = function() {
-      var count;
-      count = 0;
-      angular.forEach($scope.todos, function(todo) {
-        return count += (todo.done ? 0 : 1);
-      });
-      return count;
-    };
-    return $scope.archive = function() {
-      var oldTodos;
-      oldTodos = $scope.todos;
-      $scope.todos = [];
-      return angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) {
-          return $scope.todos.push(todo);
-        }
-      });
-    };
-  }
 ]);
+;angular.module('app.controllers').controller('GristCtrl', function($scope, $location, $resource, $rootScope, $http, lexers, popularLexers) {
+  $scope.lexer = null;
+  $scope.lexers = lexers;
+  return $scope.popularLexers = popularLexers;
+});
 ;angular.module('app.controllers').controller('TracksCtrl', function($scope, $location, $resource, $rootScope) {
   $scope.tracks = $resource('/api/music/tracks');
   return $scope.tracks.get();
 });
-;'use strict';
-/* Directives*/
-
-angular.module('app.directives', ['app.services']).directive('appVersion', [
-  'version', function(version) {
-    return function(scope, elm, attrs) {
-      return elm.text(version);
-    };
-  }
-]);
-;'use strict';
-/* Filters*/
-
-angular.module('app.filters', []).filter('interpolate', [
-  'version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
-    };
-  }
-]);
-;'use strict';
-/* Sevices*/
-
-angular.module('app.services', []).factory('version', function() {
-  return "0.1";
+;angular.module('app.directives', ['app.services']);
+;angular.module('app.directives', []).directive('select2ModelWatcher', function() {
+  return {
+    restrict: 'A',
+    require: '?ngModel',
+    link: function(scope, element, attr, ngModel) {
+      var sel;
+      sel = element.select2();
+      return ngModel.$render = function() {
+        sel.val(ngModel.$viewValue);
+        return setTimeout(function() {
+          return sel.trigger("change");
+        });
+      };
+    }
+  };
 });
-;
+;angular.module('app.filters', []);
+;angular.module('app.services', []);
+;angular.module('app.services').factory("lexers", function() {
+  return window.appConfig.lexers;
+});
+;angular.module('app.services').factory("popularLexers", function() {
+  return ["Text only", "Python", "JavaScript", "Ruby", "CSS", "HTML", "Django/Jinja"];
+});
 ;
 //# sourceMappingURL=app.js.map

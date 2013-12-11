@@ -54,6 +54,10 @@ GEM
     multi_json (1.8.2)
     pg (0.17.0)
     polyglot (0.3.3)
+    posix-spawn (0.3.8)
+    pygments.rb (0.5.4)
+      posix-spawn (~> 0.3.6)
+      yajl-ruby (~> 1.1.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -103,6 +107,7 @@ GEM
     uglifier (2.3.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -112,6 +117,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   pg
+  pygments.rb
   rails (= 4.0.2)
   sass-rails (~> 4.0.0)
   sdoc
