@@ -5,11 +5,7 @@ App = angular.module('app', ['ngCookies', 'ngResource', 'app.controllers', 'app.
 
 App.config([
   '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider, config) {
-    $routeProvider.when('/', {
-      templateUrl: '/partials/index.html'
-    }).otherwise({
-      redirectTo: '/'
-    });
+    $routeProvider;
     return $locationProvider.html5Mode(true);
   }
 ]);
@@ -29,10 +25,18 @@ App.config([
     };
   }
 ]);
-;angular.module('app.controllers').controller('GristCtrl', function($scope, $location, $resource, $rootScope, $http, lexers, popularLexers) {
+;angular.module('app.controllers').controller('GristCtrl', function($scope, $location, $resource, $rootScope, $http, lexers, popularLexers, Grist) {
   $scope.lexer = null;
   $scope.lexers = lexers;
-  return $scope.popularLexers = popularLexers;
+  $scope.popularLexers = popularLexers;
+  $scope.grist = null;
+  return $scope.create = function($event) {
+    $scope.grist = Grist.create({
+      lexer: $scope.lexer,
+      source: $scope.source
+    });
+    return false;
+  };
 });
 ;angular.module('app.controllers').controller('TracksCtrl', function($scope, $location, $resource, $rootScope) {
   $scope.tracks = $resource('/api/music/tracks');
@@ -57,6 +61,17 @@ App.config([
 });
 ;angular.module('app.filters', []);
 ;angular.module('app.services', []);
+;angular.module('app.services').service("Grist", function($http) {
+  var _this = this;
+  this.id = null;
+  return this.create = function(attrs) {
+    var req;
+    req = $http.post('/api/1/grist', attrs);
+    return req.success(function(res) {
+      return _this.id = res.id;
+    });
+  };
+});
 ;angular.module('app.services').factory("lexers", function() {
   return window.appConfig.lexers;
 });

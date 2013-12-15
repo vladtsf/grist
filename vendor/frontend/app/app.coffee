@@ -21,10 +21,10 @@ App.config([
 
   $routeProvider
 
-    .when('/', {templateUrl: '/partials/index.html'})
+    # .when('/', {templateUrl: '/partials/index.html'})
 
     # Catch all
-    .otherwise({redirectTo: '/'})
+    # .otherwise({redirectTo: '/'})
 
   # Without server side support html5 must be disabled.
   $locationProvider.html5Mode(true)
